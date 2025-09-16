@@ -31,8 +31,6 @@ try {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title'] ?? '');
     $content = trim($_POST['content'] ?? '');
-    $author = trim($_POST['author'] ?? '');
-    $category = trim($_POST['category'] ?? '');
     $keywords = trim($_POST['keywords'] ?? '');
     $status = $_POST['status'] ?? 'draft';
     
@@ -45,9 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $messageType = 'danger';
     } else {
         try {
-            $sql = "UPDATE article SET title = ?, content = ?, author = ?, category = ?, keywords = ?, status = ? WHERE id = ?";
+            $sql = "UPDATE article SET title = ?, content = ?, keywords = ?, status = ? WHERE id = ?";
             $stmt = $pdo->prepare($sql);
-            $result = $stmt->execute([$title, $content, $author, $category, $keywords, $status, $id]);
+            $result = $stmt->execute([$title, $content, $keywords, $status, $id]);
             
             if ($result) {
                 $message = 'Статья успешно обновлена!';
@@ -67,13 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Get existing categories for suggestions
-try {
-    $categoryStmt = $pdo->query("SELECT DISTINCT category FROM article WHERE category IS NOT NULL ORDER BY category");
-    $existingCategories = $categoryStmt->fetchAll(PDO::FETCH_COLUMN);
-} catch (PDOException $e) {
-    $existingCategories = [];
-}
+// categories removed
 ?>
 
 <!DOCTYPE html>
@@ -178,32 +170,7 @@ try {
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="author" class="form-label">
-                                                <i class="fas fa-user me-1"></i>Автор
-                                            </label>
-                                            <input type="text" class="form-control" id="author" name="author" 
-                                                   value="<?php echo htmlspecialchars($article['author']); ?>">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="category" class="form-label">
-                                                <i class="fas fa-folder me-1"></i>Категория
-                                            </label>
-                                            <input type="text" class="form-control" id="category" name="category" 
-                                                   value="<?php echo htmlspecialchars($article['category']); ?>"
-                                                   list="categoryList">
-                                            <datalist id="categoryList">
-                                                <?php foreach($existingCategories as $cat): ?>
-                                                    <option value="<?php echo htmlspecialchars($cat); ?>">
-                                                <?php endforeach; ?>
-                                            </datalist>
-                                        </div>
-                                    </div>
-                                </div>
+                                
 
                                 <div class="mb-3">
                                     <label for="keywords" class="form-label">

@@ -125,28 +125,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete'])) {
                         </h4>
                         
                         <div class="row mb-3">
-                            <div class="col-md-6">
-                                <small class="text-muted">
-                                    <i class="fas fa-user me-1"></i>
-                                    <strong>Автор:</strong> <?php echo htmlspecialchars($article['author'] ?: 'Не указан'); ?>
-                                </small>
-                            </div>
-                            <div class="col-md-6">
-                                <small class="text-muted">
-                                    <i class="fas fa-folder me-1"></i>
-                                    <strong>Категория:</strong> <?php echo htmlspecialchars($article['category'] ?: 'Не указана'); ?>
-                                </small>
-                            </div>
-                        </div>
-                        
-                        <div class="row mb-3">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <small class="text-muted">
                                     <i class="fas fa-calendar me-1"></i>
                                     <strong>Создано:</strong> <?php echo date('d.m.Y H:i', strtotime($article['created_at'])); ?>
                                 </small>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-12">
                                 <small class="text-muted">
                                     <i class="fas fa-flag me-1"></i>
                                     <strong>Статус:</strong> 

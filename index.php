@@ -3,7 +3,6 @@ require_once 'database_config/config.php';
 
 // Get search and filter parameters
 $search = isset($_GET['search']) ? $_GET['search'] : '';
-$category = isset($_GET['category']) ? $_GET['category'] : '';
 $status = isset($_GET['status']) ? $_GET['status'] : '';
 
 // Build query
@@ -15,10 +14,7 @@ if (!empty($search)) {
     $params[':search'] = "%$search%";
 }
 
-if (!empty($category)) {
-    $query .= " AND category = :category";
-    $params[':category'] = $category;
-}
+// category filter removed
 
 if (!empty($status)) {
     $query .= " AND status = :status";
@@ -36,13 +32,7 @@ try {
     $error = "Ошибка при загрузке статей: " . $e->getMessage();
 }
 
-// Get unique categories for filter
-try {
-    $categoryStmt = $pdo->query("SELECT DISTINCT category FROM article WHERE category IS NOT NULL ORDER BY category");
-    $categories = $categoryStmt->fetchAll(PDO::FETCH_COLUMN);
-} catch(PDOException $e) {
-    $categories = [];
-}
+// category list removed
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +57,7 @@ try {
             font-size: 0.8em;
         }
         .search-container {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg,rgb(18, 17, 67) 0%, #764ba2 100%);
             color: white;
             padding: 2rem 0;
             margin-bottom: 2rem;
@@ -94,20 +84,10 @@ try {
                     </h1>
                     
                     <form method="GET" class="row g-3">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="search" placeholder="Поиск по заголовку, содержанию или ключевым словам..." value="<?php echo htmlspecialchars($search); ?>">
+                        </div>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" name="search" placeholder="Поиск по заголовку, содержанию или тегам..." value="<?php echo htmlspecialchars($search); ?>">
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select" name="category">
-                                <option value="">Все категории</option>
-                                <?php foreach($categories as $cat): ?>
-                                    <option value="<?php echo htmlspecialchars($cat); ?>" <?php echo $category === $cat ? 'selected' : ''; ?>>
-                                        <?php echo htmlspecialchars($cat); ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
                             <select class="form-select" name="status">
                                 <option value="">Все статусы</option>
                                 <option value="published" <?php echo $status === 'published' ? 'selected' : ''; ?>>Опубликовано</option>
@@ -173,11 +153,7 @@ try {
                                     </span>
                                 </div>
                                 
-                                <?php if($article['category']): ?>
-                                    <p class="text-muted small mb-2">
-                                        <i class="fas fa-folder me-1"></i><?php echo htmlspecialchars($article['category']); ?>
-                                    </p>
-                                <?php endif; ?>
+                                
                                 
                                 <p class="card-text">
                                     <?php echo htmlspecialchars(substr($article['content'], 0, 150)) . (strlen($article['content']) > 150 ? '...' : ''); ?>
@@ -201,8 +177,6 @@ try {
                                 <?php endif; ?>
                                 
                                 <div class="text-muted small mb-3">
-                                    <i class="fas fa-user me-1"></i><?php echo htmlspecialchars($article['author'] ?: 'Не указан'); ?>
-                                    <br>
                                     <i class="fas fa-calendar me-1"></i><?php echo date('d.m.Y H:i', strtotime($article['created_at'])); ?>
                                 </div>
                             </div>

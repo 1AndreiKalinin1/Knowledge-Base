@@ -100,19 +100,7 @@ try {
                         </div>
                         
                         <div class="row">
-                            <div class="col-md-6">
-                                <p class="mb-1">
-                                    <i class="fas fa-user me-2"></i>
-                                    <strong>Автор:</strong> <?php echo htmlspecialchars($article['author'] ?: 'Не указан'); ?>
-                                </p>
-                                <?php if($article['category']): ?>
-                                    <p class="mb-1">
-                                        <i class="fas fa-folder me-2"></i>
-                                        <strong>Категория:</strong> <?php echo htmlspecialchars($article['category']); ?>
-                                    </p>
-                                <?php endif; ?>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <p class="mb-1">
                                     <i class="fas fa-calendar me-2"></i>
                                     <strong>Дата создания:</strong> <?php echo date('d.m.Y H:i', strtotime($article['created_at'])); ?>
