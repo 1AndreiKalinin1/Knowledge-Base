@@ -1,11 +1,9 @@
 <?php
 require_once 'database_config/config.php';
 
-// Get search and filter parameters
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $status = isset($_GET['status']) ? $_GET['status'] : '';
 
-// Build query
 $query = "SELECT * FROM article WHERE 1=1";
 $params = [];
 
@@ -13,8 +11,6 @@ if (!empty($search)) {
     $query .= " AND (title LIKE :search OR content LIKE :search OR keywords LIKE :search)";
     $params[':search'] = "%$search%";
 }
-
-// category filter removed
 
 if (!empty($status)) {
     $query .= " AND status = :status";
@@ -32,7 +28,6 @@ try {
     $error = "Ошибка при загрузке статей: " . $e->getMessage();
 }
 
-// category list removed
 ?>
 
 <!DOCTYPE html>
@@ -63,8 +58,8 @@ try {
             margin-bottom: 2rem;
         }
         .tag {
-            background-color: #e9ecef;
-            color: #495057;
+            background-color:rgb(199, 204, 209);
+            color:rgb(51, 16, 76);
             padding: 0.25rem 0.5rem;
             border-radius: 0.375rem;
             font-size: 0.875rem;

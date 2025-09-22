@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $keywords = trim($_POST['keywords'] ?? '');
     $status = $_POST['status'] ?? 'draft';
     
-    // Validation
     if (empty($title)) {
         $message = 'Заголовок обязателен для заполнения';
         $messageType = 'danger';
@@ -32,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($result) {
                 $message = 'Статья успешно добавлена!';
                 $messageType = 'success';
-                // Clear form data
                 $title = $content = $keywords = '';
                 $status = 'draft';
             } else {
@@ -58,13 +56,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         .form-container {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea 0%,rgb(13, 7, 19) 100%);
             color: white;
             padding: 2rem 0;
             margin-bottom: 2rem;
         }
         .form-control:focus {
-            border-color: #667eea;
+            border-color:rgb(51, 75, 180);
             box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
         }
         .btn-primary {
